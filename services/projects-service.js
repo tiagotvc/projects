@@ -1,7 +1,24 @@
 const Project = require('../models/project-model')
+let projects = [];
+let idList = [];
 
 
-createProject = (req, res) => {
+async function getAllProjects(){
+
+    projects = await Project.find();
+
+    console.log(projects)
+
+    await Promise.all(projects.map((ids) => {
+        idList.push(ids._id);
+    }))
+
+    return idList;
+
+}
+
+
+createProject = async (req, res) => {
 
     // #swagger.tags = ['Projects']
     // #swagger.description = 'Endpoint para salvar um novo projeto no banco.'
@@ -47,12 +64,7 @@ createProject = (req, res) => {
         })
         .catch(async (error) =>  {
 
-            const projectsList = await Project.find()
-            let idList = [];
-
-            await Promise.all(projectsList.map((ids) => {
-                idList.push(ids._id);
-            }))
+            await getAllProjects();
 
             /* #swagger.responses[400] = { 
                schema: { $ref: "#/definitions/Projects" },
@@ -68,6 +80,27 @@ createProject = (req, res) => {
         })
 }
 
+
+getProjects = async (req, res) => {
+
+    // #swagger.tags = ['Projects']
+    // #swagger.description = 'Endpoint to list all database projects.'
+
+
+    await getAllProjects();
+
+    /*  #swagger.responses[200] = { 
+        schema: { $ref: "#/definitions/Project_list" },
+        description: 'List of projects.' 
+    } */
+
+
+    res.json(projects)
+
+
+}
+
 module.exports = {
-    createProject
+    createProject,
+    getProjects
 }

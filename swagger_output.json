@@ -56,6 +56,21 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "description": "Endpoint to list all database projects.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Project_list"
+            },
+            "description": "List of projects."
+          }
+        }
       }
     }
   },
@@ -106,6 +121,42 @@
         "message": {
           "type": "string",
           "example": "Project Inserted!"
+        }
+      }
+    },
+    "Project_list": {
+      "type": "object",
+      "properties": {
+        "tasks": {
+          "type": "array",
+          "example": [
+            "Name1",
+            "Name2",
+            "Name3"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "_id": {
+          "type": "string",
+          "example": "1"
+        },
+        "title": {
+          "type": "string",
+          "example": "First Project"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-08-20T16:05:32.545Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2021-08-20T16:05:32.545Z"
+        },
+        "_v": {
+          "type": "number",
+          "example": 0
         }
       }
     },

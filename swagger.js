@@ -37,6 +37,18 @@ const doc = {
             id: "15",
             message: 'Project Inserted!',
         },
+        Project_list: {
+            tasks: [
+                "Name1",
+                "Name2",
+                "Name3"
+            ],
+            _id: "1",
+            title: "First Project",
+            createdAt: "2021-08-20T16:05:32.545Z",
+            updatedAt: "2021-08-20T16:05:32.545Z",
+            _v:0
+        },
         CreateProject: {
             $_id: "145",
             $title: "Criação de APIS",
