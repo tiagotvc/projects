@@ -2,19 +2,15 @@ const Project = require('../models/project-model')
 let projects = [];
 let idList = [];
 
-
 async function getAllProjects(){
 
     projects = await Project.find();
-
-    console.log(projects)
 
     await Promise.all(projects.map((ids) => {
         idList.push(ids._id);
     }))
 
     return idList;
-
 }
 
 
@@ -96,11 +92,161 @@ getProjects = async (req, res) => {
 
 
     res.json(projects)
+}
 
+changeProjectTitle = async (req, res) => {
+
+    // #swagger.tags = ['Projects']
+    // #swagger.description = 'Endpoint to change project title by id.'
+    // #swagger.parameters['id'] = { description: 'ID do projeto.' }
+
+    
+    /* #swagger.parameters['newTitle'] = {
+        in: 'body',
+        description: 'new title of the project',
+        required: true,
+        type: 'object',
+        schema: { $ref: "#/definitions/changeTitle" }
+    } */
+
+    try{
+
+       const update =  await Project.updateOne({ _id:req.params.id },{ $set: req.body });
+
+       /* #swagger.responses[200] = { 
+        schema: { $ref: "#/definitions/changeSucess" },
+        description: 'Project title sucess updated.' 
+        } */
+
+        /* #swagger.responses[400] = { 
+        schema: { $ref: "#/definitions/changeFailed" },
+        description: 'Project Id not found.' 
+        } */
+
+
+        /* #swagger.responses[500] = { 
+        schema: { $ref: "#/definitions/databaseError" },
+        description: 'Mongoose error.' 
+        } */
+
+       if(update.nModified > 0){
+           res.json({status:200,message:"Project Sucess Updated"})
+       }
+       else{
+           res.json({status:400,message:"Id not found"})
+       }
+
+    }
+    catch(err){
+
+        res.json({status:500,message:"Database Error"})
+    }
+}
+
+
+deleteProjectById = async (req, res) => {
+
+    // #swagger.tags = ['Projects']
+    // #swagger.description = 'Endpoint to delete Project by Id.'
+    // #swagger.parameters['id'] = { description: 'ID do projeto.' }
+
+    try{
+        const deleting = await Project.findOneAndDelete({ _id: req.params.id })
+        
+     /* #swagger.responses[200] = { 
+        schema: { $ref: "#/definitions/deleteSucess" },
+        description: 'Project sucess deleted.' 
+        } */
+
+        /* #swagger.responses[400] = { 
+        schema: { $ref: "#/definitions/changeFailed" },
+        description: 'Project Id not found.' 
+        } */
+
+
+        /* #swagger.responses[500] = { 
+        schema: { $ref: "#/definitions/databaseError" },
+        description: 'Mongoose error.' 
+        } */
+
+        if(deleting == null){
+            res.json({
+                status:400,
+                message:"Id not found"
+            })
+        }else{
+            res.json({
+                status:200,
+                message:"Project Sucess deleted"
+            })
+        }
+    }
+    catch{
+
+        res.json({
+            status:500,
+            message:"Database Error"
+        })
+
+    }
+
+}
+
+addTasksToProjectById = async (req, res) => {
+
+    /* #swagger.parameters['addTasksToProject'] = {
+               in: 'body',
+               description: 'Informações do projeto.',
+               required: true,
+               type: 'object',
+               schema: { $ref: "#/definitions/addTasks" }
+        } */
+
+
+    //const[tasks] = req.body;
+
+    const tasks = req.body;
+
+    try{
+        let getTasks = await Project.findOne({ _id: req.params.id });
+      
+
+        if(getTasks == null){
+
+        }
+        else {
+            tasks.tasks.forEach(function(item) {
+                if(getTasks.tasks.indexOf(item) < 0) {
+                    getTasks.tasks.push(item);
+                }
+            })
+
+            const body = {
+                tasks: getTasks.tasks
+            }
+
+            const update =  await Project.updateOne({ _id:req.params.id },{ $set: body });
+
+            if(update == null){
+
+            }else{
+
+                res.json({Status:200,message:"Tasks sucess added"})
+            }
+            
+        }
+
+
+    }catch{
+
+    }
 
 }
 
 module.exports = {
     createProject,
-    getProjects
+    getProjects,
+    changeProjectTitle,
+    deleteProjectById,
+    addTasksToProjectById
 }

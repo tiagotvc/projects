@@ -49,9 +49,31 @@ const doc = {
             updatedAt: "2021-08-20T16:05:32.545Z",
             _v:0
         },
+        changeTitle: {
+            title:"new title"
+        },
+        changeSucess: {
+            status:200,
+            message:"Project Sucess Updated"
+        },
+        changeFailed: {
+            status:400,
+            message:"Id not found"
+        },
+        databaseError: {
+            status:500,
+            message:"Database Error"
+        },
+        deleteSucess: {
+            status:200,
+            message:"Project sucess deleted"
+        },
         CreateProject: {
             $_id: "145",
             $title: "Criação de APIS",
+            $tasks: ["taksName"]
+        },
+        addTasks: {
             $tasks: ["taksName"]
         }
     }

@@ -72,6 +72,113 @@
           }
         }
       }
+    },
+    "/projects/{id}": {
+      "put": {
+        "tags": [
+          "Projects"
+        ],
+        "description": "Endpoint to change project title by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto."
+          },
+          {
+            "name": "newTitle",
+            "in": "body",
+            "description": "new title of the project",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/changeTitle"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/changeSucess"
+            },
+            "description": "Project title sucess updated."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/changeFailed"
+            },
+            "description": "Project Id not found."
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/databaseError"
+            },
+            "description": "Mongoose error."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "description": "Endpoint to delete Project by Id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto."
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/deleteSucess"
+            },
+            "description": "Project sucess deleted."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/changeFailed"
+            },
+            "description": "Project Id not found."
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/databaseError"
+            },
+            "description": "Mongoose error."
+          }
+        }
+      }
+    },
+    "/projects/{id}/tasks": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "addTasksToProject",
+            "in": "body",
+            "description": "Informações do projeto.",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/addTasks"
+            }
+          }
+        ],
+        "responses": {}
+      }
     }
   },
   "definitions": {
@@ -160,6 +267,67 @@
         }
       }
     },
+    "changeTitle": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "new title"
+        }
+      }
+    },
+    "changeSucess": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "example": 200
+        },
+        "message": {
+          "type": "string",
+          "example": "Project Sucess Updated"
+        }
+      }
+    },
+    "changeFailed": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "example": 400
+        },
+        "message": {
+          "type": "string",
+          "example": "Id not found"
+        }
+      }
+    },
+    "databaseError": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "example": 500
+        },
+        "message": {
+          "type": "string",
+          "example": "Database Error"
+        }
+      }
+    },
+    "deleteSucess": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "example": 200
+        },
+        "message": {
+          "type": "string",
+          "example": "Project sucess deleted"
+        }
+      }
+    },
     "CreateProject": {
       "type": "object",
       "properties": {
@@ -184,6 +352,23 @@
       "required": [
         "_id",
         "title",
+        "tasks"
+      ]
+    },
+    "addTasks": {
+      "type": "object",
+      "properties": {
+        "tasks": {
+          "type": "array",
+          "example": [
+            "taksName"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
         "tasks"
       ]
     }
