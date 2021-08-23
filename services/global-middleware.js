@@ -25,7 +25,7 @@
              return message;
         }
  
-         if(reqs[0].requests){
+         if(reqs.length > 0){
  
              /** Se existirem dados será feito um update no banco  */
  
