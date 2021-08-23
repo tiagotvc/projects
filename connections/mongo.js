@@ -6,10 +6,12 @@
  *  DATA: 2021/07/05
 */
 
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const dev = "127.0.0.1";
+const prod = "mongo";
 
 mongoose
-    .connect('mongodb://127.0.0.1:27017/local', { useUnifiedTopology: true , useNewUrlParser: true })
+    .connect('mongodb://'+prod+':27017/local', { useUnifiedTopology: true , useNewUrlParser: true })
     .catch(e => {
         console.error('Connection error', e.message)
     })

@@ -60,6 +60,10 @@ const doc = {
             status:400,
             message:"Id not found"
         },
+        updateFail: {
+            status:401,
+            message:"Project not updated"
+        },
         databaseError: {
             status:500,
             message:"Database Error"

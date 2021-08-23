@@ -18,14 +18,16 @@
  
      /**Procura se já existem dados de requisição no banco */
  
-     await Request.find({}, async (err, reqs) =>{
+     await Request.find({_id:1}, async (err, reqs) =>{
          if(err){
              message = "error"
  
              return message;
         }
+
+        
  
-         if(reqs[0].requests){
+         if(reqs.length > 0){
  
              /** Se existirem dados será feito um update no banco  */
  
