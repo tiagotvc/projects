@@ -196,7 +196,7 @@ deleteProjectById = async (req, res) => {
     try{
 
         const deleting = await Project.findOneAndDelete({ _id: req.params.id })
-        console.log(deleting)
+        
      /* #swagger.responses[200] = { 
         schema: { $ref: "#/definitions/deleteSucess" },
         description: 'Project sucess deleted.' 
