@@ -2,6 +2,9 @@
 
 Processo padrão para iniciar e testar o projeto
 
+utilizando o git bash acessar a pasta onde deseja despejar o projeto e executar:
+git clone https://github.com/tiagotvc/projects
+
 ## Instalando dependências
 
 ```
